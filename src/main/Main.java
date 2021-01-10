@@ -1,8 +1,6 @@
 package main;
 import java.io.*;
 import java.util.Scanner;
-import java.io.*;
-
 public class Main {
 
 	public static void main(String[] args) throws IOException {
@@ -54,7 +52,10 @@ public class Main {
 				System.out.println("add player in the system press '4'");
 				System.out.println("print information of one player '5'");
 				System.out.println("print information of all player '6'");
-				System.out.println("EXIT press '7'");
+				System.out.println("Applay Event '7'");
+				System.out.println("print Events of a Week '8'");
+				System.out.println("score of your Squad '9'");
+				System.out.println("EXIT press '10'");
 						
 				Scanner in =new Scanner (System.in) ;
 				int k=in.nextInt();
@@ -64,89 +65,14 @@ public class Main {
 					Scanner inp =new Scanner (System.in) ;
 					int m=inp.nextInt();
 					p.printPlayers();
-					for(int i=0;i<2;i++)
+					
+					System.out.println("Now you ready to make your squad please enter 2 goolkeeper,5 defender,5 midfieder,3 forward");
+					for(int i=0;i<15;i++)
 					{
-						System.out.println("enter the name of your goal keeper");
-						Scanner p1 =new Scanner (System.in) ;
-						String s1=p1.nextLine();
-						int j=s.checkGoalKeeper(s1);
-						if(j==1)//GoalKeeper
-						{
-							System.out.println("this goal keeper is added succesufully");
-						}
-						if(j==2)//NOT GoalKeeper
-						{
-							System.out.println("this player is not  goal keeper try again");
-							i--;
-						}
-						if(j==3)//NOT PLAYER ON THE SYSTEM GoalKeeper
-						{
-							System.out.println("sorry, this player is not found try again");
-							i--;
-						}
-					}
-					for(int i=0;i<5;i++)
-					{
-						System.out.println("enter the name of your defender");
-						Scanner p1 =new Scanner (System.in) ;
-						String s1=p1.nextLine();
-						int j=s.checkdefender(s1);
-						if(j==1)//GoalKeeper
-						{
-							System.out.println("this goal keeper is added succesufully");
-						}
-						if(j==2)//NOT GoalKeeper
-						{
-							System.out.println("this player is not  goal keeper try again");
-							i--;
-						}
-						if(j==3)//NOT PLAYER ON THE SYSTEM GoalKeeper
-						{
-							System.out.print("sorry, this player is not found try again");
-							i--;
-						}
-					}
-					for(int i=0;i<5;i++)
-					{
-						System.out.println("enter the name of your midfielder");
-						Scanner p1 =new Scanner (System.in) ;
-						String s1=p1.nextLine();
-						int j=s.checkmidfielder(s1);
-						if(j==1)//GoalKeeper
-						{
-							System.out.println("this goal keeper is added succesufully");
-						}
-						if(j==2)//NOT GoalKeeper
-						{
-							System.out.println("this player is not  goal keeper try again");
-							i--;
-						}
-						if(j==3)//NOT PLAYER ON THE SYSTEM GoalKeeper
-						{
-							System.out.print("sorry, this player is not found try again");
-							i--;
-						}
-					}
-					for(int i=0;i<3;i++)
-					{
-						System.out.println("enter the name of your forward");
-						Scanner p1 =new Scanner (System.in) ;
-						String s1=p1.nextLine();
-						int j=s.checkforward(s1);
-						if(j==1)//GoalKeeper
-						{
-							System.out.println("this goal keeper is added succesufully");
-						}
-						if(j==2)//NOT GoalKeeper
-						{
-							System.out.println("this player is not  goal keeper try again");
-							i--;
-						}
-						if(j==3)//NOT PLAYER ON THE SYSTEM GoalKeeper
-						{
-							System.out.print("sorry, this player is not found try again");
-							i--;
-						}
+						System.out.println("enter the name of your Player");
+						Scanner name =new Scanner (System.in) ;
+						String name1=name.nextLine();
+						s.addPlayerinSquad(name1);
 					}
 					if(m==1)
 					{
@@ -157,7 +83,7 @@ public class Main {
 							System.out.println("Squad is out of budget");
 					}
 					else 
-						System.out.println("Squad is added Succesfully and its price is "+s.calculate());
+						System.out.println("Squad is added Succesfully and its price is "+s.calculateValue());
 				}
 				else if (k==2)
 				{
@@ -175,7 +101,7 @@ public class Main {
 				}
 				else if (k==3)
 				{
-					System.out.println(" price of squad is "+s.calculate());
+					System.out.println(" price of squad is "+s.calculateValue());
 				}
 				else if (k==4)
 				{
@@ -194,7 +120,7 @@ public class Main {
 					System.out.println("enter the price ");
 					Scanner p5 =new Scanner (System.in) ;
 					String value =p5.nextLine();
-					infoPlayer inf=new infoPlayer(name,nationality,position,club,value);
+					infoPlayer inf=new infoPlayer(name,nationality,position,club,value,"0");
 					p.Addplayer(inf);
 				}
 				else if (k==5)
@@ -206,11 +132,60 @@ public class Main {
 				}
 				else if (k==6)
 				{
-					
 					p.printPlayers();
 				}
-				
 				else if (k==7)
+				{
+				    String names[] =new String[20] ;
+				    int point[] = new int[20];
+				    int i=0;
+				    ChangePoint cs=new ChangePoint();
+					cs.readFileEvents();
+					Event ev=new Event();
+					ChangePoint ch =new ChangePoint(ev);
+					ev.registerObserver(ch);
+					while(true) {
+						
+					System.out.println("enter the number of your Event ");
+					Scanner number =new Scanner (System.in) ;
+					int num=number.nextInt();
+					System.out.println("which week ");
+					Scanner week=new Scanner (System.in) ;
+					String wk=week.nextLine();
+					MakeEventInWeek event= new MakeEventInWeek();
+					int o=cs.getScore(num);
+					System.out.println("Which player ");
+					Scanner p1 =new Scanner (System.in) ;
+					String name=p1.nextLine();
+					event.EventOfWeek(wk, num,name);
+					names[i]=name;
+					point[i]=o;
+					i++;
+					System.out.println("if you want to continue press 1 if exit perss 2");
+					Scanner choice =new Scanner (System.in) ;
+					int choice1=choice.nextInt();
+					if(choice1==2)
+					{
+						ev.SetPoints(names, point);
+						break;
+					}
+					}	
+				}
+				else if (k==8)///print event of week
+				{
+					MakeEventInWeek event= new MakeEventInWeek();	
+					System.out.println("which week ");
+					Scanner week=new Scanner (System.in) ;
+					String wk=week.nextLine();
+					event.PrintEventOfWeek(wk);
+				}
+				else if (k==9)///print event of week
+				{
+					Squad s4=new Squad(b);
+					System.out.println("your squad Score:"+s4.calculateScore());
+					
+				}
+				else if (k==10)
 				{
 					break;
 				}

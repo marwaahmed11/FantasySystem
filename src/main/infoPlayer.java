@@ -1,20 +1,29 @@
 
 package main;
-
 public class infoPlayer {
 	    String name;
 	    String nationality;
 	    String position;
 	    String club;
 	    String value;
-	    
-	    public infoPlayer(String name,String nationality,String position,String club,String value)
+	    String point;
+	    public infoPlayer(String name,String nationality,String position,String club,String value,String point)
 	    {
 	        this.name=name;
 	        this.nationality=nationality;
 	        this.position=position;
 	        this.club=club;
 	        this.value=value;
+	        this.point=point;
+	    }
+	    public infoPlayer()
+	    {
+	        this.name="";
+	        this.nationality="";
+	        this.position="";
+	        this.club="";
+	        this.value="";
+	        this.point="";
 	    }
 	    public void setname (String name)
 	    {
@@ -55,5 +64,9 @@ public class infoPlayer {
 	    public String getvalue ()
 	    {
 	        return value;
+	    }
+	    public String getpoint ()
+	    {
+	        return point;
 	    }
 }

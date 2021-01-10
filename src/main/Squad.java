@@ -1,6 +1,5 @@
 
 package main;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,233 +8,62 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-public class Squad implements PrintOnFile{
+public class Squad {
 	ArrayList<infoPlayer> squads;
 	String user;
+    String Position[]={ "Goalkeeper", "Defender","Midfielder","Forward"};
+      int RulesPosition[]={ 2, 5,5,3};
+      PrintOnFile print=new PrintOnFile();
 	public Squad(String user)
 	{
 		this.user=user;
 	     squads=new ArrayList<infoPlayer>();
 	}
-	
-	public void printonfile(String data) throws IOException
+	public void addScore(String score) throws IOException
 	{
-		String str = data;
-		Path path =Paths.get( "C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt");
-        if (!Files.exists(path))
-        {
-            Files.createFile(path);
-           // System.out.print("created successfully");
-            
-        }
-	    BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt", true));
-	   // writer.append(' ');
-	    writer.append(str);
-	    writer.close();
+		print.printonfile("Score of squad:"+score,user+".txt");
 	}
-	
-	public void addSquad(infoPlayer inf)
+	public void addPlayerinSquad(String name) throws FileNotFoundException
 	{ 
-		
+		Player player=new Player();
+		infoPlayer inf=player.foundPlayer(name);
+		if(inf !=null)
+		{
 		squads.add(inf);
 		try {
-			printonfile("Name:"+inf.getname()+" "+"Position:"+inf.getposition()+" "+"Nationality:"+inf.getnationality()+" "+"Club:"+inf.getclub()+" "+"Value:"+inf.getvalue()+"\n");
+			print.printonfile("Name:"+inf.getname()+" "+"Position:"+inf.getposition()+" "+"Nationality:"+inf.getnationality()+" "+"Club:"+inf.getclub()+" "+"Value:"+inf.getvalue()+" "+"Point:"+inf.getpoint()+"\n",user+".txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	  	 
-	}
-	public int checkGoalKeeper(String name) throws FileNotFoundException
-	{
-		
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
-		Scanner myReader = new Scanner(myObj);
-		String copydata = null;
-		boolean f=false;
-		while(myReader.hasNextLine()) {
-			
-			String data = myReader.nextLine();
-			
-			String[]  x= data.split(" ");
-			String z=x[0];
-			String[]  y=z.split(":");
-			String w=y[y.length-1];
-			
-			if(w.equals(name))
-			{
-				copydata=data;
-				f=true;
-				break;
-			}
-			
-		}
-		myReader.close();
-		if(f==false)
-		{
-			//System.out.print("sorry, this name is not found");
-			return 3;
-			
-		}
-		else {	
-			String[]  h= copydata.split(" ");
-			String position=h[1];
-			String[]  position1=position.split(":");
-			String position2=position1[1];
-			
-		if(position2.equals("Goalkeeper"))
-		{
-			Player p=new Player();
-			addSquad(p.foundPlayer(name));
-			return 1;
-		}
+		} 
 		else
-			return 2;
-		}
-	}
-	public int checkdefender(String name) throws FileNotFoundException
-	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
-		Scanner myReader = new Scanner(myObj);
-		String copydata = null;
-		boolean f=false;
-		while(myReader.hasNextLine()) {
-			
-			String data = myReader.nextLine();
-			
-			String[]  x= data.split(" ");
-			String z=x[0];
-			String[]  y=z.split(":");
-			String w=y[y.length-1];
-			if(w.equals(name))
+			System.out.println("sorry, this name is not found");
+		CheckRulesOfPosition check=new CheckRulesOfPosition() ;
+		boolean t=true;
+		for(int i=0;i<4;i++)
+		{
+			boolean t1=check.applayChecking(user,Position[i] ,RulesPosition[i]);
+			if(t1==false)
 			{
-				copydata=data;
-				f=true;
-				break;
+				System.out.println("the squad is out of range in position:"+Position[i]);
+			    t=false;
 			}
-			
 		}
-		myReader.close();
-		if(f==false)
-		{
-			//System.out.print("sorry, this name is not found");
-			return 3;
-			
-		}
-		else {	
-			String[]  h= copydata.split(" ");
-			String position=h[1];
-			String[]  position1=position.split(":");
-			String position2=position1[1];
-			
-		if(position2.equals("Defender"))
-		{
-			Player p=new Player();
-			addSquad(p.foundPlayer(name));
-			return 1;
-		}
-		else
-			return 2;
-		}
+		if(t==true)
+			System.out.println("the squad is in range ");
 	}
-	public int checkmidfielder(String name) throws FileNotFoundException
-	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
-		Scanner myReader = new Scanner(myObj);
-		String copydata = null;
-		boolean f=false;
-		while(myReader.hasNextLine()) {
-			
-			String data = myReader.nextLine();
-			
-			String[]  x= data.split(" ");
-			String z=x[0];
-			String[]  y=z.split(":");
-			String w=y[y.length-1];
-			if(w.equals(name))
-			{
-				copydata=data;
-				f=true;
-				break;
-			}
-			
-		}
-		myReader.close();
-		if(f==false)
-		{
-			//System.out.print("sorry, this name is not found");
-			return 3;
-			
-		}
-		else {	
-			String[]  h= copydata.split(" ");
-			String position=h[1];
-			String[]  position1=position.split(":");
-			String position2=position1[1];
-		if(position2.equals("Midfielder"))
-		{
-			Player p=new Player();
-			addSquad(p.foundPlayer(name));
-			return 1;
-		}
-		else
-			return 2;
-		}
-	}
-	public int checkforward(String name) throws FileNotFoundException
-	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
-		Scanner myReader = new Scanner(myObj);
-		String copydata = null;
-		boolean f=false;
-		while(myReader.hasNextLine()) {
-			
-			String data = myReader.nextLine();
-			
-			String[]  x= data.split(" ");
-			String z=x[0];
-			String[]  y=z.split(":");
-			String w=y[y.length-1];
-			if(w.equals(name))
-			{
-				copydata=data;
-				f=true;
-				break;
-			}
-			
-		}
-		myReader.close();
-		if(f==false)
-		{
-			//System.out.print("sorry, this name is not found");
-			return 3;
-			
-		}
-		else {	
-			String[]  h= copydata.split(" ");
-			String position=h[1];
-			String[]  position1=position.split(":");
-			String position2=position1[1];
-		if(position2.equals("Forward"))
-		{
-			Player p=new Player();
-			addSquad(p.foundPlayer(name));
-			return 1;
-		}
-		else
-			return 2;
-		}
-	}
-	public int calculate() throws FileNotFoundException
+	
+	public int calculateValue() throws FileNotFoundException
 	{
 		int sum=0;
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt");
+		File myObj = new File(user+".txt");
 		Scanner myReader = new Scanner(myObj);
 		while(myReader.hasNextLine()) {
 			
@@ -251,10 +79,29 @@ public class Squad implements PrintOnFile{
 		myReader.close();
 		return sum;	
 	}
+	public int calculateScore() throws FileNotFoundException
+	{
+		int sum=0;
+		File myObj = new File(user+".txt");
+		Scanner myReader = new Scanner(myObj);
+		while(myReader.hasNextLine()) {
+			
+			String data = myReader.nextLine();
+			
+			String[]  x= data.split(" ");
+			String value=x[5];
+			String[]  y= value.split(":");
+			String nomber=y[1];
+			int foo=Integer.parseInt(nomber);
+			sum=sum+foo;
+		}
+		myReader.close();
+		return sum;	
+	}
 	public boolean calculatefirstime() throws FileNotFoundException
 	{
 		int sum=0;
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt");
+		File myObj = new File(user+".txt");
 		Scanner myReader = new Scanner(myObj);
 		while(myReader.hasNextLine()) {
 			
@@ -275,12 +122,10 @@ public class Squad implements PrintOnFile{
 	}
 	public void changeSquad(infoPlayer oldplayer,infoPlayer newplayer) throws IOException
 	{
-	File inputFile = new File("C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt");
-	Path path =Paths.get( "C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\myTempFile.txt");
-    if (!Files.exists(path))
-     Files.createFile(path);
-    
-	File tempFile = new File("C:\\Users\\Fatma\\Desktop\\Design\\\\UsersSquad\\myTempFile.txt");
+	File inputFile = new File(user+".txt");
+    Path path = FileSystems.getDefault().getPath("myTempFile.txt");
+	File userfile = new File(path.toString());
+	File tempFile = new File("myTempFile.txt");
 
 	BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 	BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
@@ -296,22 +141,18 @@ public class Squad implements PrintOnFile{
 	    	//System.out.println("D5l ");
 	    	continue;
 	    }
-	    writer.write(currentLine + System.getProperty("line.separator"));
-	    
-	    
-	    
+	    writer.write(currentLine + System.getProperty("line.separator"));    
 	}
 	writer.close(); 
 	reader.close();
 	inputFile.delete();
 	//boolean successful =
 	//tempFile.renameTo(inputFile);
-	File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\myTempFile.txt");
+	File myObj = new File("myTempFile.txt");
     Scanner myReader = new Scanner(myObj);
-    Path path1 =Paths.get( "C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt");
-    if (!Files.exists(path1))
-     Files.createFile(path1);
-    File myObj1 = new File("C:\\Users\\Fatma\\Desktop\\Design\\UsersSquad\\"+user+".txt");
+    Path path1 = FileSystems.getDefault().getPath(user+".txt");
+   	File userfile1 = new File(path1.toString());
+    File myObj1 = new File(user+".txt");
     FileWriter fw=new FileWriter(myObj1);
     PrintWriter pw=new PrintWriter(fw);
 	while(myReader.hasNextLine()) {
@@ -324,8 +165,58 @@ public class Squad implements PrintOnFile{
 	myReader.close();
     pw.close();
     myObj.delete();
-	addSquad(newplayer);
+    
+	addPlayerinSquad(newplayer.getname());
 	System.out.println("change is succesefull");		
 	}
 	
+	  public void changeScoreSquad(String actualScore,String score) throws IOException
+	{
+		  File inputFile = new File(user+".txt");
+		    Path path = FileSystems.getDefault().getPath("myTempFile.txt");
+			File userfile = new File(path.toString());
+			File tempFile = new File("myTempFile.txt");
+
+			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+			String lineToRemove =actualScore; 
+			String currentLine;
+			//System.out.println(lineToRemove);
+			while((currentLine = reader.readLine()) != null) {
+			    String trimmedLine = currentLine.trim();
+			    //System.out.println(trimmedLine);
+			    
+			    if(trimmedLine.equals(lineToRemove)) {
+			    	//System.out.println("D5l ");
+			    	continue;
+			    }
+			    writer.write(currentLine + System.getProperty("line.separator"));    
+			}
+			writer.close(); 
+			reader.close();
+			inputFile.delete();
+			//boolean successful =
+			//tempFile.renameTo(inputFile);
+			File myObj = new File("myTempFile.txt");
+		    Scanner myReader = new Scanner(myObj);
+		    Path path1 = FileSystems.getDefault().getPath(user+".txt");
+		    File userfile1 = new File(path1.toString());
+		    File myObj1 = new File(user+".txt");
+		    FileWriter fw=new FileWriter(myObj1);
+		    PrintWriter pw=new PrintWriter(fw);
+			while(myReader.hasNextLine()) {
+				
+				String data = myReader.nextLine();
+				pw.println(data);
+			
+			}
+			
+			myReader.close();
+		    pw.close();
+		    myObj.delete();
+		    
+			addScore(score);
+			System.out.println("change is succesefull");
+	}
 }

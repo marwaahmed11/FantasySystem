@@ -7,24 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class account implements PrintOnFile{
+public class account {
 	ArrayList<info> acount;
 	boolean checklog=false;
+	PrintOnFile print=new PrintOnFile();
 	public account()
 	{
 	    acount=new ArrayList<info>();
 	}
-	public void printonfile(String data) throws IOException
-	{
-		String str = data;
-	    BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Fatma\\Desktop\\Design\\users.txt", true));
-	  //  writer.append(' ');
-	    writer.append(str);
-	    writer.close();
-	}
+	
 	public void register(info inf) throws FileNotFoundException
 	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\users.txt");
+		File myObj = new File("users.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean f=false;
 		
@@ -53,7 +47,7 @@ public class account implements PrintOnFile{
 			acount.add(inf);
 			try {
 				//String data=;
-				printonfile("Name:"+inf.getname()+" "+"Password:"+inf.getpassword()+" "+"email:"+inf.getemail()+" "+"favorite_team:"+inf.getfavorite_team()+"\n");
+				print.printonfile("Name:"+inf.getname()+" "+"Password:"+inf.getpassword()+" "+"email:"+inf.getemail()+" "+"favorite_team:"+inf.getfavorite_team()+"\n","users.txt");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -67,7 +61,7 @@ public class account implements PrintOnFile{
 	}
 	public boolean checkLogin(String e,String p) throws FileNotFoundException
 	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\users.txt");
+		File myObj = new File("users.txt");
 		Scanner myReader = new Scanner(myObj);
 		while(myReader.hasNextLine()) {
 			
@@ -91,7 +85,7 @@ public class account implements PrintOnFile{
 	}
 	public void printacount(String e) throws FileNotFoundException//String p
 	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\users.txt");
+		File myObj = new File("users.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean b=false;
 		while(myReader.hasNextLine()) {
@@ -116,7 +110,7 @@ public class account implements PrintOnFile{
 	public void print() throws FileNotFoundException
 	{
 		
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\users.txt");
+		File myObj = new File("users.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean b=false;
 		while(myReader.hasNextLine()) {

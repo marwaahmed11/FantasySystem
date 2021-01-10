@@ -1,31 +1,29 @@
 package main;
-
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Player implements PrintOnFile{
+public class Player {
 	ArrayList<infoPlayer> players;
 	boolean checklog=false;
+	PrintOnFile print=new PrintOnFile();
 	public Player()
 	{
 		players=new ArrayList<infoPlayer>();
 	}
-	public void printonfile(String data) throws IOException
-	{
-		String str = data;
-	    BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Fatma\\Desktop\\Design\\players.txt", true));
-	   // writer.append(' ');
-	    writer.append(str);
-	    writer.close();
-	}
+	
 	public void Addplayer( infoPlayer inf) throws FileNotFoundException
 	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
+		File myObj = new File("players.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean f=false;
 		while(myReader.hasNextLine()) {
@@ -51,7 +49,7 @@ public class Player implements PrintOnFile{
 		{
 			players.add(inf);
 			try {
-				printonfile("Name:"+inf.getname()+" "+"Position:"+inf.getposition()+" "+"Nationality:"+inf.getnationality()+" "+"Club:"+inf.getclub()+" "+"value:"+inf.getvalue()+"\n");
+				print.printonfile("Name:"+inf.getname()+" "+"Position:"+inf.getposition()+" "+"Nationality:"+inf.getnationality()+" "+"Club:"+inf.getclub()+" "+"value:"+inf.getvalue()+" "+"Point:0"+"\n","players.txt");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -65,7 +63,7 @@ public class Player implements PrintOnFile{
 	
 	public void printplayer(String n) throws FileNotFoundException//String p
 	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
+		File myObj = new File("players.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean b=false;
 		while(myReader.hasNextLine()) {
@@ -93,7 +91,7 @@ public class Player implements PrintOnFile{
 	}
 	public  infoPlayer foundPlayer(String n) throws FileNotFoundException
 	{
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
+		File myObj = new File("players.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean b=false;
 		while(myReader.hasNextLine()) {
@@ -125,7 +123,10 @@ public class Player implements PrintOnFile{
 				String value=h[4];
 				String[]  value1=value.split(":");
 				String value2=value1[1];
-				infoPlayer inf=new infoPlayer(nameofplayer2,nationality2,position2,club2,value2);
+				String point=h[5];
+				String[]  point1= point.split(":");
+				String  point2= point1[1];
+				infoPlayer inf=new infoPlayer(nameofplayer2,nationality2,position2,club2,value2,point2);
 				return inf;
 				
 			}
@@ -139,7 +140,7 @@ public class Player implements PrintOnFile{
 	public void printPlayers() throws FileNotFoundException
 	{
 		
-		File myObj = new File("C:\\Users\\Fatma\\Desktop\\Design\\players.txt");
+		File myObj = new File("players.txt");
 		Scanner myReader = new Scanner(myObj);
 		boolean b=false;
 		while(myReader.hasNextLine()) {
@@ -147,5 +148,4 @@ public class Player implements PrintOnFile{
 			System.out.println(data);		
 		}
 		myReader.close();
-	}
-}
+	}}
