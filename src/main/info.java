@@ -1,13 +1,12 @@
 package main;
-
 public class info {
-    String name;
+	String name;
 	String email;
 	String password;
 	String favorite_team;
 	public info (String name,String email,String password,String favorite_team)
 	{
-		this.name=name;
+		 this.name=name;
 		this.email=email;
 		this.password=password;
 		this.favorite_team=favorite_team;
@@ -45,4 +44,3 @@ public class info {
 		return favorite_team;
 	}
 }
-    
